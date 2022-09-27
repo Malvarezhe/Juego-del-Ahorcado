@@ -33,8 +33,8 @@ function letrasAdivinadas(arrayGuardar) {
 
     let palabraadivinar = seleccionarpalabra(arrayGuardar);
     
+    document.getElementById("letrasAdivinadas").innerHTML=""; //Limpia el contenido del contenedor para un nuevo juego. 
 
-    //cuadroAdivinadas.value = "" //Reiniciar estado ??
     for (let i=0; i < palabraadivinar.length; i++){
         const listaAdivinadas = document.getElementById("letrasAdivinadas");
         const spanjs= document.createElement("span");
@@ -49,16 +49,20 @@ function letrasAdivinadas(arrayGuardar) {
 
 //Función letras erróneas y creación de spans 
 function letrasErroneas() {
-    const listaErroneas = document.getElementById("letrasIncorrectas");
-    const spanjs= document.createElement("span");
-    spanjs.classList.add("words-incorrectas");
-    const letras = document.createTextNode("M");
-    spanjs.appendChild(letras)
 
-    listaErroneas.appendChild(spanjs); 
+    document.getElementById("letrasIncorrectas").innerHTML=""; //Limpia el contenido del contenedor para un nuevo juego. 
+
+    for (let i=0; i < 7; i++){
+        const listaErroneas = document.getElementById("letrasIncorrectas");
+        const spanjs= document.createElement("span");
+        spanjs.classList.add("words-incorrectas");
+        const letras = document.createTextNode("M");
+        spanjs.appendChild(letras)
+        listaErroneas.appendChild(spanjs); 
+    }
 }
 
-//Capturar evento teclado y definición de rango de letras
+//Definición de rango de letras
 function validarletras(evento) {
     //console.log(evento.key);
     let letraingresada = evento.key.toLocaleUpperCase();
@@ -70,24 +74,24 @@ function validarletras(evento) {
     }
 }
 
-//Va en función de nuevo game
-//Capturar evento teclado
-document.addEventListener("keyup", validarletras);
 
 //función para validar si gana o pierde
 function juegoNuevo() {
-
-    //const cambiarImg = document.getElementById("ahorcado");
-    
+    //document.getElementsByClassName("words-acertadas").remove();
+    document.addEventListener("keyup", validarletras); 
     const cambiarImg = document.getElementById("imgAhorcado").src = "./img/Estado0.png";
     arrayGuardar = ["ALURA", "ORACLE", "HTML", "JAVASCRIPT", "DEVELOPER"]; 
     let palabra = letrasAdivinadas(arrayGuardar);
+    letrasErroneas()
     console.log(palabra);
-    //document.getElementsByClassName("words-acertadas").remove();
 }
 
 
-
+/* 
+document.getElementById("focusButton").addEventListener("click", () => {
+    document.getElementById("myTextField").focus();
+  });
+ */
 /* EVENTO PARA DEJAR DE CAPTURAR EL TECLADO */
 /* function noCapturarLetra() {
     document.removeEventListener("keydown", capturarLetra);
