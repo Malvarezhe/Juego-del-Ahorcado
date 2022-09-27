@@ -24,49 +24,33 @@
 
                 <div class="zona-juego">
 
-                    <div class="ahorcado">
-                    
+                    <div class="ahorcado" id="imagenes">
+                        <img class="pirata" src="#" alt="" id="imgAhorcado">
                     </div>
 
-                    <div class="adivinadas">
-                        <span class="words-acertadas"></span>
-                        <span class="words-acertadas"></span>
-                        <span class="words-acertadas"></span>
-                        <span class="words-acertadas"></span>
-                        <span class="words-acertadas"></span>
-                        <span class="words-acertadas"></span>
-                        <span class="words-acertadas"></span>
+                    <div class="adivinadas" id="letrasAdivinadas">
+                        <!-- <span class="words-acertadas"></span> -->
                     </div>
 
                 </div>
 
                 <div class="interactivo">
 
-                    <div class="words-incorrectas">Letras Incorrectas</div>
+                    <div class="incorrectas" id="letrasIncorrectas">
+
+                    </div>
 
                     <div class="botones">
-                        <button class="btn-nuevo">Nuevo Juego</button>
+                        <button class="btn-nuevo" onclick="juegoNuevo()">Iniciar Juego</button>
                         <a href="./index.html" class="btn-desistir">Desistir</a>
                     </div>
 
                 </div>
-
-
             </div>
-
-
-
-
-            <section class="botones">
-                <a href="#">Nuevo juego</a>
-                <a href="#">Desistir</a>
-            </section>
         </main>
-
-
     </div>
-
     <script src="./js/script.js"></script>
+    <script script src=" https://unpkg.com/sweetalert/dist/sweetalert.min.js "></script>
 </body>
 
 </html>
