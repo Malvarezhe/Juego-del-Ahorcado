@@ -1,41 +1,65 @@
 
 const cuadroTexto = document.querySelector(".palabra") //textarea
 const cuadroAdivinadas = document.querySelector(".adivinadas")
+arrayPalabras = ["ALURA", "ORACLE", "HTML", "JAVASCRIPT", "DEVELOPER"]; 
+//let palabraSecreta = "";
 
-//Capturar texto entrada y retornar arreglo con palabra ingresada
-function guardarTexto(arrayGuardar){
+
+function capturarSeleccionar(){
+    let insertado = document.getElementsByClassName("palabra");
+
+    arraynew = [];
+    for (var i = 0; i < insertado.length; i++) {    
+        arraynew[i] = insertado[i].value;   
+    }
+
+    cuadroTexto.value = ""; //limpiar cuadro texto
+    arrayPalabras = arrayPalabras.concat(arraynew);
+
+    console.log(arrayPalabras);
+    sessionStorage.setItem("Arrayp", arrayPalabras);  
+
+    //Seleccionar palabra aleatoria
+   /*  var aleatorio = Math.floor(Math.random()*arrayPalabras.length);
+    let palabraSecreta = arrayPalabras[aleatorio].toUpperCase();
+    console.log("Palabra a adivinar: " + palabraSecreta); */
+
+    //Almacenar palabra secreta de forma temporal
+    //sessionStorage.setItem("palabraSecreta", palabraSecreta);  
+} 
+
+
+
+/* function guardarTexto(arrayGuardar){
     let listPalabras = document.getElementsByClassName("palabra");
         
     for (var i = 0; i < listPalabras.length; i++) {    
         arrayGuardar[i] = listPalabras[i].value;    
-        }
-        cuadroTexto.value = "" //limpiar cuadro texto
+    }
+        cuadroTexto.value = "" 
+        console.log(arrayGuardar);
         return arrayGuardar;
-    }    
+    }   */  
 
-//Seleccionar palabra a adivinar de forma aleatoria
-function seleccionarpalabra(arrayGuardar) {
-   //arrayGuardar = ["ALURA", "ORACLE", "HTML", "JAVASCRIPT", "DEVELOPER"]; 
-    //let arregloEntrada = guardarTexto(arrayGuardar);
-    let arregloEntrada = arrayGuardar;
+
+function seleccionarpalabra(arrayPalabras) {
+
+    let arregloEntrada = arrayPalabras;
     
-    //console.log(arregloEntrada);
-
     var aleatorio = Math.floor(Math.random()*arregloEntrada.length);
-    palabraSecreta = arregloEntrada[aleatorio].toUpperCase();
-    //console.log(palabraSecreta)
-
-    return palabraSecreta;
+    let pseleccionada = arregloEntrada[aleatorio].toUpperCase();
+    console.log("Soy palabra secreta: " + pseleccionada);
+    return pseleccionada;
 }
 
 //Función letras adivinadas y creación de spans 
-function letrasAdivinadas(arrayGuardar) {
+function letrasAdivinadas(palabraSecreta) {
 
-    let palabraadivinar = seleccionarpalabra(arrayGuardar);
+    //let palabraadivinar = seleccionarpalabra(arrayGuardar);
     
     document.getElementById("letrasAdivinadas").innerHTML=""; //Limpia el contenido del contenedor para un nuevo juego. 
 
-    for (let i=0; i < palabraadivinar.length; i++){
+    for (let i=0; i < palabraSecreta.length; i++){
         const listaAdivinadas = document.getElementById("letrasAdivinadas");
         const spanjs= document.createElement("span");
         spanjs.classList.add("words-acertadas");
@@ -43,8 +67,6 @@ function letrasAdivinadas(arrayGuardar) {
         spanjs.appendChild(letras)
         listaAdivinadas.appendChild(spanjs); 
     }
-    
-    return palabraadivinar;
 }
 
 //Función letras erróneas y creación de spans 
@@ -77,13 +99,23 @@ function validarletras(evento) {
 
 //función para validar si gana o pierde
 function juegoNuevo() {
-    //document.getElementsByClassName("words-acertadas").remove();
     document.addEventListener("keyup", validarletras); 
     const cambiarImg = document.getElementById("imgAhorcado").src = "./img/Estado0.png";
-    arrayGuardar = ["ALURA", "ORACLE", "HTML", "JAVASCRIPT", "DEVELOPER"]; 
-    let palabra = letrasAdivinadas(arrayGuardar);
-    letrasErroneas()
-    console.log(palabra);
+    letrasErroneas();  
+
+    //Obtener arreglo de Strings 
+    let arrayPalabras = sessionStorage.getItem("Arrayp");
+    //Convertir String en un arreglo
+    let arreglo = arrayPalabras.split(',');
+
+    console.log("Soy el array: " + arreglo);
+
+    let palabraSecreta = seleccionarpalabra(arreglo);
+    console.log(palabraSecreta);
+    
+    
+    letrasAdivinadas(palabraSecreta);
+
 }
 
 
