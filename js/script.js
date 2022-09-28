@@ -2,10 +2,11 @@
 const cuadroTexto = document.querySelector(".palabra") //textarea
 const cuadroAdivinadas = document.querySelector(".adivinadas")
 arrayPalabras = ["ALURA", "ORACLE", "HTML", "JAVASCRIPT", "DEVELOPER"]; 
-//let palabraSecreta = "";
 
 
-function capturarSeleccionar(){
+//Función para capturar y guardar texto ingresado en arrglo
+function capturarTexto(){
+
     let insertado = document.getElementsByClassName("palabra");
 
     arraynew = [];
@@ -14,9 +15,16 @@ function capturarSeleccionar(){
     }
 
     cuadroTexto.value = ""; //limpiar cuadro texto
-    arrayPalabras = arrayPalabras.concat(arraynew);
 
-    console.log(arrayPalabras);
+    //Válidación de campo de texto
+    if (arraynew == '') {
+        alert("El campo de texto esta vacío")
+        arrayPalabras = arrayPalabras;
+    } else {
+        arrayPalabras = arrayPalabras.concat(arraynew);
+    }
+
+    console.log("Soy el nuevo array: " + arrayPalabras);
     sessionStorage.setItem("Arrayp", arrayPalabras);  
 
     //Seleccionar palabra aleatoria
@@ -40,15 +48,24 @@ function capturarSeleccionar(){
         console.log(arrayGuardar);
         return arrayGuardar;
     }   */  
+/* function seleccionarpalabraEntrada(arrayPal) {
 
+        let arregloEntrada = arrayPal;
+        
+        var aleatorio = Math.floor(Math.random()*arregloEntrada.length);
+        let pseleccionada = arregloEntrada[aleatorio].toUpperCase();
+        console.log("Soy palabra secreta: " + pseleccionada);
+        return pseleccionada;
+}
+ */0
 
-function seleccionarpalabra(arrayPalabras) {
+ //FUnción seleccionar palabra secreta
+function seleccionarpalabra(arrayPal) {
 
-    let arregloEntrada = arrayPalabras;
-    
+    let arregloEntrada = arrayPal;
     var aleatorio = Math.floor(Math.random()*arregloEntrada.length);
     let pseleccionada = arregloEntrada[aleatorio].toUpperCase();
-    console.log("Soy palabra secreta: " + pseleccionada);
+
     return pseleccionada;
 }
 
@@ -101,19 +118,25 @@ function validarletras(evento) {
 function juegoNuevo() {
     document.addEventListener("keyup", validarletras); 
     const cambiarImg = document.getElementById("imgAhorcado").src = "./img/Estado0.png";
+    console.log("Soy array original: "+ arrayPalabras);
+    
+    //Obtener arreglo de Strings guardado de sessionStorage
+    let arrayguardado = sessionStorage.getItem("Arrayp");
+    
+    let palabraSecreta = "";
+
+    if (arrayguardado == null) {
+        palabraSecreta = seleccionarpalabra(arrayPalabras);
+       
+    }else {
+        //Convertir String en un arreglo
+        let arreglo = arrayguardado.split(',');
+        palabraSecreta = seleccionarpalabra(arreglo);
+    }
+
+    console.log("Soy arra final: "+ arrayguardado);
+    console.log("Soy palabra secreta: " + palabraSecreta);
     letrasErroneas();  
-
-    //Obtener arreglo de Strings 
-    let arrayPalabras = sessionStorage.getItem("Arrayp");
-    //Convertir String en un arreglo
-    let arreglo = arrayPalabras.split(',');
-
-    console.log("Soy el array: " + arreglo);
-
-    let palabraSecreta = seleccionarpalabra(arreglo);
-    console.log(palabraSecreta);
-    
-    
     letrasAdivinadas(palabraSecreta);
 
 }
