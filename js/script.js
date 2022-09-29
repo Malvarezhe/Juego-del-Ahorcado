@@ -9,6 +9,10 @@ function capturarTexto(){
 
     let insertado = document.getElementsByClassName("palabra");
 
+    /* if (insertado.includes(insertado)) {
+        return
+    }
+ */
     arraynew = [];
     for (var i = 0; i < insertado.length; i++) {    
         arraynew[i] = insertado[i].value;   
@@ -20,7 +24,9 @@ function capturarTexto(){
     if (arraynew == '') {
         alert("El campo de texto esta vacío")
         arrayPalabras = arrayPalabras;
-    } else {
+    } 
+    
+    else {
         arrayPalabras = arrayPalabras.concat(arraynew);
     }
 
@@ -38,27 +44,6 @@ function capturarTexto(){
 
 
 
-/* function guardarTexto(arrayGuardar){
-    let listPalabras = document.getElementsByClassName("palabra");
-        
-    for (var i = 0; i < listPalabras.length; i++) {    
-        arrayGuardar[i] = listPalabras[i].value;    
-    }
-        cuadroTexto.value = "" 
-        console.log(arrayGuardar);
-        return arrayGuardar;
-    }   */  
-/* function seleccionarpalabraEntrada(arrayPal) {
-
-        let arregloEntrada = arrayPal;
-        
-        var aleatorio = Math.floor(Math.random()*arregloEntrada.length);
-        let pseleccionada = arregloEntrada[aleatorio].toUpperCase();
-        console.log("Soy palabra secreta: " + pseleccionada);
-        return pseleccionada;
-}
- */0
-
  //FUnción seleccionar palabra secreta
 function seleccionarpalabra(arrayPal) {
 
@@ -66,13 +51,12 @@ function seleccionarpalabra(arrayPal) {
     var aleatorio = Math.floor(Math.random()*arregloEntrada.length);
     let pseleccionada = arregloEntrada[aleatorio].toUpperCase();
 
+    sessionStorage.setItem("pSecreta", pseleccionada);  
     return pseleccionada;
 }
 
 //Función letras adivinadas y creación de spans 
 function letrasAdivinadas(palabraSecreta) {
-
-    //let palabraadivinar = seleccionarpalabra(arrayGuardar);
     
     document.getElementById("letrasAdivinadas").innerHTML=""; //Limpia el contenido del contenedor para un nuevo juego. 
 
@@ -80,10 +64,25 @@ function letrasAdivinadas(palabraSecreta) {
         const listaAdivinadas = document.getElementById("letrasAdivinadas");
         const spanjs= document.createElement("span");
         spanjs.classList.add("words-acertadas");
+        spanjs.setAttribute("id","letAdivinada");
         const letras = document.createTextNode("");
+        //const letras = document.createTextNode(palabraSecreta[i]);
         spanjs.appendChild(letras)
         listaAdivinadas.appendChild(spanjs); 
     }
+
+   /*  document.getElementById("letrasAdivinadas").innerHTML="";
+    for (let i=0; i < palabraSecreta.length; i++){
+        const listaAdivinadas = document.getElementById("letrasAdivinadas");
+        const spanjs= document.createElement("span");
+        spanjs.classList.add("words-acertadas");
+        spanjs.setAttribute("id","letAdivinada");
+        const letras = document.createTextNode(palabraSecreta[i]);
+        spanjs.appendChild(letras)
+        listaAdivinadas.appendChild(spanjs); 
+    } */
+    /* document.getElementById("letAdivinada").innerHTML="M";
+    document.getElementById("letAdivinada").innerHTML="A"; */
 }
 
 //Función letras erróneas y creación de spans 
@@ -95,28 +94,65 @@ function letrasErroneas() {
         const listaErroneas = document.getElementById("letrasIncorrectas");
         const spanjs= document.createElement("span");
         spanjs.classList.add("words-incorrectas");
+        spanjs.setAttribute("id","letIncorrecta");
         const letras = document.createTextNode("M");
         spanjs.appendChild(letras)
         listaErroneas.appendChild(spanjs); 
     }
+    
 }
 
-//Definición de rango de letras
 function validarletras(evento) {
     //console.log(evento.key);
+    const teclaPresionada = evento.key.toLocaleUpperCase();
+
+    let PalSecreta = sessionStorage.getItem("pSecreta");
+    //document.querySelector("#letAdivinada").textContent = letraingresada.detail;
+
+        if (teclaPresionada.match(/^[A-ZÑ]$/i)) { //solo toma caracteres alfabéticos, sin números ni símbolos
+            console.log("letra " + teclaPresionada);
+            
+        } else {
+            alert("Caracter no válido")
+        }
+
+        for (let letra = 0; letra < PalSecreta.length; letra++) {
+                
+            if (PalSecreta[letra] == teclaPresionada) {
+                    console.log("Son iguales")
+                    //document.getElementById("letAdivinada").innerHTML="M";
+            }  
+        }
+
+            //document.getElementById("letAdivinada").innerHTML="M";
+    }
+    
+
+document.addEventListener("keyup", validarletras); 
+
+//Definición de rango de letras
+/* function validarletras(evento) {
+    //console.log(evento.key);
     let letraingresada = evento.key.toLocaleUpperCase();
+    //document.querySelector("#letAdivinada").textContent = letraingresada.detail;
 
     if (letraingresada.match(/^[A-ZÑ]$/i)) { //solo toma caracteres alfabéticos, sin números ni símbolos
         console.log("letra " + letraingresada);
+
+       
+
     } else {
         alert("Caracter no válido")
     }
-}
+  
+} */
 
 
-//función para validar si gana o pierde
+    
 function juegoNuevo() {
-    document.addEventListener("keyup", validarletras); 
+    
+    //document.addEventListener("keyup", validarletras); 
+
     const cambiarImg = document.getElementById("imgAhorcado").src = "./img/Estado0.png";
     console.log("Soy array original: "+ arrayPalabras);
     
@@ -138,38 +174,31 @@ function juegoNuevo() {
     console.log("Soy palabra secreta: " + palabraSecreta);
     letrasErroneas();  
     letrasAdivinadas(palabraSecreta);
+    //document.getElementById("letAdivinada").innerHTML="M";
 
 }
 
 
-/* 
-document.getElementById("focusButton").addEventListener("click", () => {
-    document.getElementById("myTextField").focus();
-  });
- */
-/* EVENTO PARA DEJAR DE CAPTURAR EL TECLADO */
-/* function noCapturarLetra() {
-    document.removeEventListener("keydown", capturarLetra);
+/* function guardarTexto(arrayGuardar){
+    let listPalabras = document.getElementsByClassName("palabra");
+        
+    for (var i = 0; i < listPalabras.length; i++) {    
+        arrayGuardar[i] = listPalabras[i].value;    
+    }
+        cuadroTexto.value = "" 
+        console.log(arrayGuardar);
+        return arrayGuardar;
+    }   */  
+/* function seleccionarpalabraEntrada(arrayPal) {
+
+        let arregloEntrada = arrayPal;
+        
+        var aleatorio = Math.floor(Math.random()*arregloEntrada.length);
+        let pseleccionada = arregloEntrada[aleatorio].toUpperCase();
+        console.log("Soy palabra secreta: " + pseleccionada);
+        return pseleccionada;
 }
  */
-
-
-
-
-//for (let letra of errado) {
-  
-//document.addEventListener("DOMContentLoaded", crearParrafo);
-
-/* window.nuevoJuego = function nuevoJuego() {
-    let palabra = palabra_aleatoria()
-    juego = {}
-    juego.palabra = palabra
-    juego.estado = 7
-    juego.adivinado = []
-    juego.errado = []
-    finalizado = false
-    dibujar(juego)
-} */
 
 
 
