@@ -9,10 +9,6 @@ function capturarTexto(){
 
     let insertado = document.getElementsByClassName("palabra");
 
-    /* if (insertado.includes(insertado)) {
-        return
-    }
- */
     arraynew = [];
     for (var i = 0; i < insertado.length; i++) {    
         arraynew[i] = insertado[i].value;   
@@ -24,27 +20,16 @@ function capturarTexto(){
     if (arraynew == '') {
         alert("El campo de texto esta vacío")
         arrayPalabras = arrayPalabras;
-    } 
-    
-    else {
+    } else {
         arrayPalabras = arrayPalabras.concat(arraynew);
     }
 
     console.log("Soy el nuevo array: " + arrayPalabras);
     sessionStorage.setItem("Arrayp", arrayPalabras);  
-
-    //Seleccionar palabra aleatoria
-   /*  var aleatorio = Math.floor(Math.random()*arrayPalabras.length);
-    let palabraSecreta = arrayPalabras[aleatorio].toUpperCase();
-    console.log("Palabra a adivinar: " + palabraSecreta); */
-
-    //Almacenar palabra secreta de forma temporal
-    //sessionStorage.setItem("palabraSecreta", palabraSecreta);  
 } 
 
 
-
- //FUnción seleccionar palabra secreta
+ //Función seleccionar palabra secreta
 function seleccionarpalabra(arrayPal) {
 
     let arregloEntrada = arrayPal;
@@ -60,29 +45,19 @@ function letrasAdivinadas(palabraSecreta) {
     
     document.getElementById("letrasAdivinadas").innerHTML=""; //Limpia el contenido del contenedor para un nuevo juego. 
 
+    let contador = 0;
+
     for (let i=0; i < palabraSecreta.length; i++){
         const listaAdivinadas = document.getElementById("letrasAdivinadas");
         const spanjs= document.createElement("span");
         spanjs.classList.add("words-acertadas");
-        spanjs.setAttribute("id","letAdivinada");
+        spanjs.setAttribute("id","letAdivinada" + contador);
         const letras = document.createTextNode("");
-        //const letras = document.createTextNode(palabraSecreta[i]);
         spanjs.appendChild(letras)
         listaAdivinadas.appendChild(spanjs); 
+        contador++;
     }
 
-   /*  document.getElementById("letrasAdivinadas").innerHTML="";
-    for (let i=0; i < palabraSecreta.length; i++){
-        const listaAdivinadas = document.getElementById("letrasAdivinadas");
-        const spanjs= document.createElement("span");
-        spanjs.classList.add("words-acertadas");
-        spanjs.setAttribute("id","letAdivinada");
-        const letras = document.createTextNode(palabraSecreta[i]);
-        spanjs.appendChild(letras)
-        listaAdivinadas.appendChild(spanjs); 
-    } */
-    /* document.getElementById("letAdivinada").innerHTML="M";
-    document.getElementById("letAdivinada").innerHTML="A"; */
 }
 
 //Función letras erróneas y creación de spans 
@@ -90,68 +65,55 @@ function letrasErroneas() {
 
     document.getElementById("letrasIncorrectas").innerHTML=""; //Limpia el contenido del contenedor para un nuevo juego. 
 
+    let contador = 0; //Vontador para ids
+
     for (let i=0; i < 7; i++){
         const listaErroneas = document.getElementById("letrasIncorrectas");
         const spanjs= document.createElement("span");
         spanjs.classList.add("words-incorrectas");
-        spanjs.setAttribute("id","letIncorrecta");
+        spanjs.setAttribute("id","letIncorrecta" + contador);
         const letras = document.createTextNode("M");
         spanjs.appendChild(letras)
         listaErroneas.appendChild(spanjs); 
+        contador++;
     }
-    
 }
 
+//Función validar evento teclado y construcción de palabra adivinada
 function validarletras(evento) {
-    //console.log(evento.key);
+
     const teclaPresionada = evento.key.toLocaleUpperCase();
 
+    //LLamo palabra secreta almacenada en sessionStorage
     let PalSecreta = sessionStorage.getItem("pSecreta");
-    //document.querySelector("#letAdivinada").textContent = letraingresada.detail;
 
-        if (teclaPresionada.match(/^[A-ZÑ]$/i)) { //solo toma caracteres alfabéticos, sin números ni símbolos
-            console.log("letra " + teclaPresionada);
+    if (teclaPresionada.match(/^[A-ZÑ]$/i)) { //solo toma caracteres alfabéticos, sin números ni símbolos
+        console.log("letra " + teclaPresionada);
             
-        } else {
-            alert("Caracter no válido")
-        }
-
-        for (let letra = 0; letra < PalSecreta.length; letra++) {
-                
-            if (PalSecreta[letra] == teclaPresionada) {
-                    console.log("Son iguales")
-                    //document.getElementById("letAdivinada").innerHTML="M";
-            }  
-        }
-
-            //document.getElementById("letAdivinada").innerHTML="M";
-    }
-    
-
-document.addEventListener("keyup", validarletras); 
-
-//Definición de rango de letras
-/* function validarletras(evento) {
-    //console.log(evento.key);
-    let letraingresada = evento.key.toLocaleUpperCase();
-    //document.querySelector("#letAdivinada").textContent = letraingresada.detail;
-
-    if (letraingresada.match(/^[A-ZÑ]$/i)) { //solo toma caracteres alfabéticos, sin números ni símbolos
-        console.log("letra " + letraingresada);
-
-       
-
     } else {
         alert("Caracter no válido")
     }
-  
-} */
 
+    for (let letra = 0; letra < PalSecreta.length; letra++) {
+                
+        if (PalSecreta[letra] == teclaPresionada) {
+            console.log("Son iguales")
 
-    
+            document.getElementById("letrasIncorrectas").innerHTML=""; //Limpia el contenido del contenedor para un nuevo juego. 
+          
+            const listaAdivinadas = document.getElementById("letrasAdivinadas");
+            const spanjs= document.getElementById("letAdivinada" + letra);
+            const letras = document.createTextNode(PalSecreta[letra]);
+            spanjs.appendChild(letras)
+        }
+    }  
+} 
+
+//Captura de evento teclado y llamado de función
+document.addEventListener("keyup", validarletras); 
+
+//Función de juego nuevo
 function juegoNuevo() {
-    
-    //document.addEventListener("keyup", validarletras); 
 
     const cambiarImg = document.getElementById("imgAhorcado").src = "./img/Estado0.png";
     console.log("Soy array original: "+ arrayPalabras);
@@ -161,6 +123,7 @@ function juegoNuevo() {
     
     let palabraSecreta = "";
 
+    //Si no se usa la opción de guardar palabras se valida para usar el array de palabras predefinido
     if (arrayguardado == null) {
         palabraSecreta = seleccionarpalabra(arrayPalabras);
        
@@ -174,46 +137,6 @@ function juegoNuevo() {
     console.log("Soy palabra secreta: " + palabraSecreta);
     letrasErroneas();  
     letrasAdivinadas(palabraSecreta);
-    //document.getElementById("letAdivinada").innerHTML="M";
 
 }
 
-
-/* function guardarTexto(arrayGuardar){
-    let listPalabras = document.getElementsByClassName("palabra");
-        
-    for (var i = 0; i < listPalabras.length; i++) {    
-        arrayGuardar[i] = listPalabras[i].value;    
-    }
-        cuadroTexto.value = "" 
-        console.log(arrayGuardar);
-        return arrayGuardar;
-    }   */  
-/* function seleccionarpalabraEntrada(arrayPal) {
-
-        let arregloEntrada = arrayPal;
-        
-        var aleatorio = Math.floor(Math.random()*arregloEntrada.length);
-        let pseleccionada = arregloEntrada[aleatorio].toUpperCase();
-        console.log("Soy palabra secreta: " + pseleccionada);
-        return pseleccionada;
-}
- */
-
-
-
-//Validar solo alfabeto
-/* /^[A-Z]+$/i
-Donde:
-
-^ indica que el patrón debe iniciar con los caracteres dentro de los corchetes
-
-[A-Z] indica que los caracteres admitidos son letras del alfabeto
-
-+ indica que los caracteres dentro de los corchetes se pueden repetir
-
-$ indica que el patrón finaliza con los caracteres que están dentro de los corchetes.
-
-i indica que validaremos letras mayúsculas y minúsculas (case-insensitive)
-
-Así, una posible implementación para nuestra validación sería la siguiente: */
