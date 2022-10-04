@@ -71,7 +71,7 @@ header {
 
 .ahorcado {
     display: flex;    
-    width: 25vw;
+    width: 30vw;
     height: 56vh;
     background-color: rgba(229, 245, 245, 0.5);
     /* background-image: url(../img/Estado0.png);
@@ -89,18 +89,18 @@ header {
 
 
 .adivinadas {
-    width: 25vw;
+    width: 30vw;
     height: 12vh;
     background-color: rgba(229, 245, 245, 0.5);   
     margin: 1rem auto 0;
     border-radius: 0 0 1rem 1rem;
     border: 2px solid darkblue;
-    text-align: center;
     display: flex;
     flex-direction: row;
 }
 
 .words-acertadas {
+    resize: none;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -112,9 +112,12 @@ header {
     font-family: 'Roboto Condensed', sans-serif;
     color: darkblue;
     border-bottom: solid 2px darkblue;
+    background-color: transparent;
+    text-align: center;
 
 }
 
+.words-acertadas
 .interactivo {
     height: 70vh;
     border-radius: 1rem;
@@ -122,25 +125,29 @@ header {
 }
 
 .incorrectas {
-    width: 28vw;
+    width: 35vw;
     height: 50%;
     background-color: rgba(12, 3, 63, 0.6);    
     border-radius: 1rem 1rem 0 0;
     border: 2px solid darkblue;
-    display: inline-block;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     padding: 1rem;
-    
 }
 
 .words-incorrectas {
-    width: 3.5rem;
-    height: 3.5rem;
-    margin: 0.5rem;
-    padding: 0.2rem;
+    background-color: transparent;
+    text-align: center;
+    resize: none;
+    width: 3rem;
+    height: 3rem;
+    margin: 0.2rem;
     font-size: 2rem;
     font-family: 'Roboto Condensed', sans-serif;
     color: yellow;
-    text-decoration: underline;
+   
 }
 
 .botones {
