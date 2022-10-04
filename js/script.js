@@ -1,4 +1,4 @@
-let letrasErradas = "";
+//Declaración de variables y/o constantes de tipo global
 aciertos = 0;
 erroneas = 0;
 arrayteclas = [];
@@ -19,7 +19,7 @@ function capturarTexto() {
 
     cuadroTexto.value = ""; //limpiar cuadro texto
 
-    //Válidación de campo de texto
+    //Válidación de campo de texto vacio
     if (arraynew == '') {
         alert("El campo de texto esta vacío")
         arrayPalabras = arrayPalabras;
@@ -28,7 +28,7 @@ function capturarTexto() {
     }
 
     console.log("Soy el nuevo array: " + arrayPalabras);
-    sessionStorage.setItem("Arrayp", arrayPalabras);
+    sessionStorage.setItem("Arrayp", arrayPalabras); //almaceno variable en session storage del navegador
 }
 
 
@@ -43,12 +43,13 @@ function seleccionarpalabra(arrayPal) {
     return pseleccionada;
 }
 
-//Función letras adivinadas y creación de spans 
+
+//Función para creación de etiquetas html textarea acorde a longitud de palabra secreta
 function letrasAdivinadas(palabraSecreta) {
 
     document.getElementById("letrasAdivinadas").innerHTML = ""; //Limpia el contenido del contenedor para un nuevo juego. 
 
-    let contador = 0;
+    let contador = 0;  //contador para construcción de ids
 
     for (let letra of palabraSecreta) {
         const listaAdivinadas = document.getElementById("letrasAdivinadas");
@@ -56,23 +57,22 @@ function letrasAdivinadas(palabraSecreta) {
         areaTexto.classList.add("words-acertadas");
         areaTexto.setAttribute("id", "letAdivinada" + contador);
         areaTexto.setAttribute("readonly", "true");
-        //areaTexto.setAttribute("value", "el mejor");
         areaTexto.textContent = '';
         listaAdivinadas.appendChild(areaTexto);
         contador++;
     }
-
 }
 
-//Función letras erróneas y creación de spans 
+
+//Función para creación de etiquetas html textarea para letras erróneas
 function letrasErroneas() {
 
     document.getElementById("letrasIncorrectas").innerHTML = ""; //Limpia el contenido del contenedor para un nuevo juego. 
 
     let juego_adivinado = [];
-    let contador = 0; //Vontador para ids
+    let contador = 0; //contador para construcción de ids
 
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i <= 8; i++) {
         const listaErroneas = document.getElementById("letrasIncorrectas");
         const areaTexto = document.createElement("textarea");
         areaTexto.classList.add("words-incorrectas");
@@ -84,105 +84,119 @@ function letrasErroneas() {
     }
 }
 
+
 //Función validar evento teclado y construcción de palabra adivinada
 function validarletras(evento) {
-
-    const teclaPresionada = evento.key.toLocaleUpperCase();
-    console.log("Soy tecla preciosonada: " + typeof(teclaPresionada))
-
-    let contando = 0;
-    //arrayteclas.push(teclaPresionada) //almaceno array de teclas
-    arrayteclas = arrayteclas + teclaPresionada;
-    console.log("Soy arrayteclas: " + typeof(arrayteclas))
-
-    /* arrayteclas.forEach(element => {
-        if(element == teclaPresionada) {
-            
-            return console.log("si estoy")
-        }else {
-            return console.log("no estoy")
-        }
-    }); */
-
-    for (let i = 0; i < arrayteclas.length; i++) {
-        if (teclaPresionada == arrayteclas[i] && !arrayteclas.includes(teclaPresionada)) {
-            console.log("si estoy")
-        }else {
-            console.log("no estoy")
-        }
-    }
-
-    /* if (teclaPresionada. arrayteclas) {
-        console.log("si estoy")
-    }else {
-        console.log("no estoy")
-    } */
-
 
     //LLamo palabra secreta almacenada en sessionStorage
     let PalSecreta = sessionStorage.getItem("pSecreta");
 
+    let contadorTecla = 0;
+    let contadorAciertos = 0;
+    const teclaPresionada = evento.key.toLocaleUpperCase();
+
+    arrayteclas.push(teclaPresionada); //almaceno array de teclas
+
+    //Si se repite la tecla presionada aumento el contador
+    arrayteclas.forEach((i) => {
+        if (i == teclaPresionada) {
+            contadorTecla++;
+        }
+    });
+
     if (teclaPresionada.match(/^[A-ZÑ]$/i)) { //solo toma caracteres alfabéticos, sin números ni símbolos
-        console.log("letra " + teclaPresionada);
+        console.log("TeclaPresionada " + teclaPresionada);
 
     } else {
+        cuadroTexto.value = "";
         alert("Caracter no válido")
     }
 
+    if (contadorTecla == 1) {
+        for (let letra = 0; letra < PalSecreta.length; letra++) {
 
-    /* for (let letra = 0; letra < PalSecreta.length; letra++) {
+            if (PalSecreta[letra] == teclaPresionada) {
 
-        if (PalSecreta[letra] == teclaPresionada) {
-            console.log("letra secreta: " + PalSecreta[letra] + " letra oprimida: " + teclaPresionada)
+                const listaAdivinadas = document.getElementById("letrasAdivinadas");
+                const areaTexto = document.getElementById("letAdivinada" + letra);
+                areaTexto.textContent = teclaPresionada;
 
-            const listaAdivinadas = document.getElementById("letrasAdivinadas");
-            const areaTexto = document.getElementById("letAdivinada" + letra);
-            areaTexto.textContent = teclaPresionada;
+                aciertos++;
 
-            aciertos++;
+                //Contador para validar posteriormente palabras erroneas
+                contadorAciertos++;
 
-            console.log("Aciertos: " + aciertos)
+                if (aciertos == PalSecreta.length) {
 
-            if (aciertos == PalSecreta.length) {
-                console.log("Ganaste");
-            } else {
-                letrasErradas++;
-                console.log("Letras erradas: " + letrasErradas)
+                    //Detener evento teclado
+                    this.removeEventListener('keyup', validarletras);
+
+                    //Alerta Ganaste
+                    Swal.fire({
+                        title: '¡Felicidades!',
+                        text: 'Ganaste',
+                        imageUrl: 'https://user-images.githubusercontent.com/106354407/193883474-ff0ddda1-6b4b-4eb6-ad9a-39fc0d2d919a.png',
+                        imageWidth: 400,
+                        imageHeight: 300,
+                        imageAlt: 'Custom image',
+                      })      
+                }
             }
 
-        } 
-    }
- */
-    /* for (let letra = 0; letra < PalSecreta.length; letra++) {
+        } if (contadorAciertos == 0) {
+            erroneas++; //Contador de vidas
 
-        if (PalSecreta[letra] != teclaPresionada) {
-            console.log("letra secreta: " + PalSecreta[letra] + " letra erronea: " + teclaPresionada)
-            
-            erroneas++;
-            //letrasErradas += teclaPresionada;
+            //llamado de función para cambio de imagen(estado) de ahorcado
+            imagenes(erroneas);
 
-            const listaErroneas = document.getElementById("letrasAdivinadas");
-            const areaTexto = document.getElementById("letIncorrecta" + letra);
+            //Reemplazo de valores de campo de texto vació por letras erroneas
+            const listaErroneas = document.getElementById("letrasIncorrectas");
+            const areaTexto = document.getElementById("letIncorrecta" + erroneas);
             areaTexto.textContent = teclaPresionada;
 
-            
+            if (erroneas == 8) {
 
-            console.log("Erroneas: " + erroneas)
+                //Detener evento teclado
+                this.removeEventListener('keyup', validarletras);
 
-            if (erroneas > PalSecreta.length) {
-                console.log("Ganaste");
+                //Alerta perdiste
+                Swal.fire({
+                    title: '¡ooh Nooo!',
+                    text: 'Perdiste',
+                    imageUrl: 'https://user-images.githubusercontent.com/106354407/193887000-532a5b26-c432-4241-ad53-04e8d8bb8b8f.png',
+                    imageWidth: 400,
+                    imageHeight: 300,
+                    imageAlt: 'Custom image',
+                  })
             }
-        } 
-    } */
+        }
+    } 
 }
 
-//Captura de evento teclado y llamado de función
+
+//Función para cambio de imagen ahorcado
+function imagenes(contadorImagen) {
+
+    const ahorcado = "./img/Estado" + contadorImagen + ".png";
+    const imagencam = document.getElementById("imgAhorcado").src = ahorcado;
+}
+
+
+//Captura de evento teclado al soltar tecla y llamado de función
 document.addEventListener("keyup", validarletras);
 
+
+//---------------------------------------------------------------------------------------------------
 //Función de juego nuevo
 function juegoNuevo() {
 
-    const cambiarImg = document.getElementById("imgAhorcado").src = "./img/Estado0.png";
+    //Reniciando estados globales
+    aciertos = 0;
+    erroneas = 0;
+    arrayteclas = [];
+    document.addEventListener("keyup", validarletras);
+
+    cambiarImg = document.getElementById("imgAhorcado").src = "./img/Estado0.png";
     console.log("Soy array original: " + arrayPalabras);
 
     //Obtener arreglo de Strings guardado de sessionStorage
@@ -204,5 +218,6 @@ function juegoNuevo() {
     console.log("Soy palabra secreta: " + palabraSecreta);
     letrasErroneas();
     letrasAdivinadas(palabraSecreta);
+
 }
 
