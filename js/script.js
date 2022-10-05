@@ -4,7 +4,7 @@ erroneas = 0;
 arrayteclas = [];
 const cuadroTexto = document.querySelector(".palabra") //textarea
 const cuadroAdivinadas = document.querySelector(".adivinadas")
-arrayPalabras = ["ALURA", "ORACLE", "HTML", "JAVASCRIPT", "DEVELOPER"];
+arrayPalabras = ["ALURA", "ORACLE", "HTML", "JAVA", "BARCO", "WEB", "DESING", "PIRATA", "AHORCADO", "CCS", "PERRO", "MAURICIO", "SHIRLEY", "GAMER", "XBOX", "PYTHON", "GOKU", "SOFIA"];
 
 
 //Función para capturar y guardar texto ingresado en arrglo
@@ -190,6 +190,7 @@ document.addEventListener("keyup", validarletras);
 //Función de juego nuevo
 function juegoNuevo() {
 
+    
     //Reniciando estados globales
     aciertos = 0;
     erroneas = 0;

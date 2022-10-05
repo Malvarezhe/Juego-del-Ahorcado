@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./ccs/style.css">
+    <link rel="stylesheet" href="./ccs/responsive.css">
     <title>Juego del ahorcado</title>
 </head>
 
@@ -18,10 +19,14 @@
             </div>
         </header>
 
+        <audio autoplay>
+            <source src="./audio/Piratas_guitar.mp3" type="audio/mp3">
+        </audio>
+
         <main class="principal">
             
             <section class="botones">
-                <button class="btn-iniciar_juego" onclick=""><a href="./comenzar.html">Interfaz de Juego</a></button>
+                <button class="btn-iniciar_juego" onmousedown="sonido.play()"><a href="./comenzar.html">Interfaz de Juego</a></button>
                 <button class="btn-ingresar_palabra"><a href="./palabras.html">Ingresar palabra</a></button>
             </section>
         </main>

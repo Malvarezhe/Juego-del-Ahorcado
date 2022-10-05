@@ -1,0 +1,104 @@
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 414px) {
+
+    .btn-iniciar_juego {
+        height: 30%;
+        width: 10rem;
+        font-size: 1.1rem;
+    }
+
+    .btn-ingresar_palabra {
+        width: 8rem;
+        height: 30%;
+        font-size: 0.8rem;
+    }
+
+    .adivinadas {
+        width: 43vw;
+        height: 10vh;
+    }
+    
+    .words-acertadas {
+        width: 2.5rem;
+        height: 3rem;
+        font-size: 1.1rem;
+    }
+
+    .ahorcado { 
+        width: 43vw;
+        height: 56vh;
+    }
+
+    .incorrectas {
+        width: 38vw;
+        height: 50%;
+        padding: 1rem;
+    }
+    
+    .words-incorrectas {
+        width: 2rem;
+        height: 2rem;
+        margin: 0.2rem;
+        font-size: 1.5rem;
+    }
+
+    .pie p {
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-left: 0.2rem;
+    }
+
+    .advertencia, p{
+        text-align: center;
+    }
+
+    .btn-cancelar {
+        width: 40%;
+        height: 20%;
+    }
+
+    .btn-guardar {
+        width: 40%;
+        height: 20%;
+    }
+
+    .btn-comenzar {
+        width: 70%;
+        height: 30%;
+        font-size: 3.5vw;
+    }
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+    .btn-iniciar_juego {
+        height: 30%;
+        margin-top: 2rem;
+    }
+
+    .btn-ingresar_palabra {
+        height: 30%;
+    }
+
+    .btn-comenzar {
+        height: 70px;
+        font-size: 3vw;
+    }
+
+    .btn-cancelar {
+        width: 20%;
+        height: 20%;
+    }
+
+    .btn-guardar {
+        height: 20%;
+    }
+
+    .advertencia, p{
+        color: darkblue;
+        font-size: 1.3rem;
+        font-weight: 900;
+    }
+
+}
