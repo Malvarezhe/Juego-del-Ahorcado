@@ -25,6 +25,6 @@ Como extra se añadio musica de fondo temática para darle un toque mas divertid
 ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 
 ## Proyecto web oficial:
-https://malvarezhe.github.io/Encriptador-de-texto/
+https://malvarezhe.github.io/Juego-del-Ahorcado/
 
-![Imagen del Sitio](https://raw.githubusercontent.com/Malvarezhe/Encriptador-de-texto/master/img/Encriptador.jpg)
+![image](https://user-images.githubusercontent.com/106354407/193979699-e77c5b01-b12c-4894-b578-bcdb2bdc9aa8.png)
