@@ -27,7 +27,7 @@ function capturarTexto() {
         arrayPalabras = arrayPalabras.concat(arraynew);
     }
 
-    console.log("Soy el nuevo array: " + arrayPalabras);
+    //console.log("Soy el nuevo array: " + arrayPalabras);
     sessionStorage.setItem("Arrayp", arrayPalabras); //almaceno variable en session storage del navegador
 }
 
@@ -108,8 +108,8 @@ function validarletras(evento) {
         console.log("TeclaPresionada " + teclaPresionada);
 
     } else {
-        cuadroTexto.value = "";
-        alert("Caracter no válido")
+        //cuadroTexto.value = "";
+        Swal.fire('Carácter no válido');
     }
 
     if (contadorTecla == 1) {
@@ -198,7 +198,6 @@ function juegoNuevo() {
     document.addEventListener("keyup", validarletras);
 
     cambiarImg = document.getElementById("imgAhorcado").src = "./img/Estado0.png";
-    console.log("Soy array original: " + arrayPalabras);
 
     //Obtener arreglo de Strings guardado de sessionStorage
     let arrayguardado = sessionStorage.getItem("Arrayp");
@@ -215,8 +214,8 @@ function juegoNuevo() {
         palabraSecreta = seleccionarpalabra(arreglo);
     }
 
-    console.log("Soy arra final: " + arrayguardado);
-    console.log("Soy palabra secreta: " + palabraSecreta);
+    //console.log("Soy arra final: " + arrayguardado);
+    //console.log("Soy palabra secreta: " + palabraSecreta);
     letrasErroneas();
     letrasAdivinadas(palabraSecreta);
 
